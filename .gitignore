@@ -1,0 +1,21 @@
+# DDEV
+.ddev/.dbimageBuild
+.ddev/.gitignore
+
+# Drupal
+/web/sites/*/settings.php
+/web/sites/*/services.yml
+/web/sites/*/files/
+
+# Vendor & cache
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
