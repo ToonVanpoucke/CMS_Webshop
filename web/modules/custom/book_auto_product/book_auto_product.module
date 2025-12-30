@@ -1,0 +1,40 @@
+<?php
+
+use Drupal\node\NodeInterface;
+use Drupal\commerce_product\Entity\Product;
+use Drupal\commerce_product\Entity\ProductVariation;
+
+/**
+ * Implements hook_node_insert().
+ */
+function book_auto_product_node_insert(NodeInterface $node) {
+  // Alleen voor content type Book
+  if ($node->getType() !== 'book') {
+    return;
+  }
+
+  // Maak een productvariation aan
+  $variation = ProductVariation::create([
+    'type' => 'default', // jouw variation type
+    'sku' => 'book-' . $node->id(),
+    'price' => [
+      'number' => '20.00', // standaardprijs
+      'currency_code' => 'EUR',
+    ],
+  ]);
+  $variation->save();
+
+  // Maak een product aan en koppel de variation
+  $product = Product::create([
+    'type' => 'book', // jouw product type
+    'title' => $node->getTitle(),
+    'variations' => [$variation],
+  ]);
+  $product->save();
+
+  // Koppel product aan de Book node (product reference field)
+  if ($node->hasField('field_product')) {
+    $node->set('field_product', ['target_id' => $product->id()]);
+    $node->save();
+  }
+}

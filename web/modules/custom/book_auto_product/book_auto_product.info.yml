@@ -1,0 +1,7 @@
+name: 'Book Auto Product'
+type: module
+description: 'Automatically creates a product + variation when a Book node is created.'
+core_version_requirement: ^11
+package: Custom
+dependencies:
+  - drupal:commerce_product
