@@ -31,6 +31,7 @@ De webshop focust op het verkopen en beheren van boeken, met aandacht voor conte
 - Afbeeldingen en categorieën beheren
 - Pagina's beheren
 - Geen toegang tot systeeminstellingen of gebruikersbeheer
+- URL's beheren
 
 **Gebruik:**
 - Voor een algemene bewerker van paginas die acties kan opzetten en tonen
