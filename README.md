@@ -28,6 +28,7 @@ De webshop focust op het verkopen en beheren van boeken, met aandacht voor conte
 **Rechten:**
 - Boeken (content) aanmaken, bewerken en verwijderen
 - Producten koppelen aan content
+- Alles van commerce beheren
 - Afbeeldingen en categorieën beheren
 - Pagina's beheren
 - Geen toegang tot systeeminstellingen of gebruikersbeheer
