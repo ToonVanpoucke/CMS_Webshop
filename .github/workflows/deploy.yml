@@ -9,14 +9,19 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          # Schrijf de secret naar een bestand en zet de rechten goed
+          echo "${{ secrets.PANTHEON_SSH_KEY }}" > ~/.ssh/id_pantheon
+          chmod 600 ~/.ssh/id_pantheon
+          # Voeg de Pantheon server toe aan bekende hosts
+          ssh-keyscan -p 2222 codeserver.dev.cfd94c98-9054-4177-b077-df32eed0da61.drush.in >> ~/.ssh/known_hosts
+
       - name: Push to Pantheon
         run: |
-          eval $(ssh-agent -s)
-          # Voeg de private key toe aan de agent
-          echo "${{ secrets.PANTHEON_SSH_KEY }}" | tr -d '\r' | ssh-add -
-          mkdir -p ~/.ssh
-          # Zorg dat de Pantheon server herkend wordt
-          ssh-keyscan -p 2222 codeserver.dev.cfd94c98-9054-4177-b077-df32eed0da61.drush.in >> ~/.ssh/known_hosts
-          # Push de code (main branch lokaal naar master branch op Pantheon)
+          # Configureer git om de specifieke sleutel te gebruiken
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_pantheon -o IdentitiesOnly=yes"
           git remote add pantheon ssh://codeserver.dev.cfd94c98-9054-4177-b077-df32eed0da61@codeserver.dev.cfd94c98-9054-4177-b077-df32eed0da61.drush.in:2222/~/repository.git
           git push --force pantheon main:master
