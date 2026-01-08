@@ -8,9 +8,9 @@
 /web/sites/*/files/
 
 # Vendor & cache
-/vendor/
+#/vendor/
 /web/core/
-/web/modules/contrib/
+#/web/modules/contrib/
 /web/themes/contrib/
 
 # OS
