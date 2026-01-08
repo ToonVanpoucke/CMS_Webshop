@@ -1,0 +1,22 @@
+name: Deploy to Pantheon
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Push to Pantheon
+        run: |
+          eval $(ssh-agent -s)
+          # Voeg de private key toe aan de agent
+          echo "${{ secrets.PANTHEON_SSH_KEY }}" | tr -d '\r' | ssh-add -
+          mkdir -p ~/.ssh
+          # Zorg dat de Pantheon server herkend wordt
+          ssh-keyscan -p 2222 codeserver.dev.cfd94c98-9054-4177-b077-df32eed0da61.drush.in >> ~/.ssh/known_hosts
+          # Push de code (main branch lokaal naar master branch op Pantheon)
+          git remote add pantheon ssh://codeserver.dev.cfd94c98-9054-4177-b077-df32eed0da61@codeserver.dev.cfd94c98-9054-4177-b077-df32eed0da61.drush.in:2222/~/repository.git
+          git push --force pantheon main:master
